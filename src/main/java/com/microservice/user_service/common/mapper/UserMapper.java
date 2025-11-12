@@ -14,7 +14,6 @@ public class UserMapper {
     public UserMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
-
     public UserDto toUserDto(User user) {
         if (user == null) return null;
         return modelMapper.map(user, UserDto.class);
