@@ -1,7 +1,10 @@
 # UserService
 -> It is microservice based application with entity user, address.
+
 -> Implement Spring security with JWT stateless loken.
+
 -> Syemmetnric Type JWT token. Single private key use all other microservices.
+
 -> Folder Structure:
 └── 📁src
     └── 📁main
