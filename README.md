@@ -41,3 +41,4 @@ src/
  └─ test/
      └─ java/com/microservice/user_service/
          └─ UserServiceApplicationTests.java
+
