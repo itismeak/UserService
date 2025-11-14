@@ -8,6 +8,7 @@ import com.microservice.user_service.modules.address.entity.Address;
 import com.microservice.user_service.modules.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
+    private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public UserMapper(ModelMapper modelMapper) {
+    public UserMapper(PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
     }
 
@@ -60,7 +63,7 @@ public class UserMapper {
         // Map basic fields (exclude addresses)
         user.setName(requestDto.getName());
         user.setEmail(requestDto.getEmail());
-        user.setPassword(requestDto.getPassword());
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         user.setRole(requestDto.getRole());
         user.setStatus(requestDto.getStatus());
 

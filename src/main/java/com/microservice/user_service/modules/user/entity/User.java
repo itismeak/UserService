@@ -5,13 +5,15 @@ import com.microservice.user_service.common.enums.Role;
 import com.microservice.user_service.common.enums.UserStatus;
 import com.microservice.user_service.modules.address.entity.Address;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Address> addresses;
 }
