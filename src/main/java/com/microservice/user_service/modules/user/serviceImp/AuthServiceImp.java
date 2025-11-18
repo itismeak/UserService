@@ -31,7 +31,7 @@ public class AuthServiceImp implements AuthService {
                     return new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                             "Email not registered in the system.");
         });
-        if (user.getStatus() != UserStatus.ACTIVE) {
+        if (user.getStatus() != UserStatus.Active) {
             log.warn("🚫 Login blocked. User {} is {}", request.getEmail(), user.getStatus());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Account is not active. Status: " + user.getStatus());

@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserViewDto {
     private Long id;
     private String name;
     private String email;

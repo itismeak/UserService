@@ -2,8 +2,8 @@ package com.microservice.user_service.common.mapper;
 
 import com.microservice.user_service.common.dto.AddressDto;
 import com.microservice.user_service.common.dto.AddressRequestDto;
-import com.microservice.user_service.common.dto.UserDto;
 import com.microservice.user_service.common.dto.UserRequestDto;
+import com.microservice.user_service.common.dto.UserViewDto;
 import com.microservice.user_service.modules.address.entity.Address;
 import com.microservice.user_service.modules.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,12 @@ public class UserMapper {
         this.modelMapper = modelMapper;
     }
 
-    public UserDto toUserDto(User user) {
+    public UserViewDto toUserViewDto(User user) {
         if (user == null) {
             log.warn("User is null, cannot map to UserDto");
             return null;
         }
-        UserDto dto = new UserDto();
+        UserViewDto dto = new UserViewDto();
         modelMapper.map(user, dto);
 
         List<Address> addresses = user.getAddresses();

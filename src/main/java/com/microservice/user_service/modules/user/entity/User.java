@@ -30,7 +30,7 @@ public class User extends BaseEntity {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status = UserStatus.ACTIVE;
+    private UserStatus status = UserStatus.Active;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

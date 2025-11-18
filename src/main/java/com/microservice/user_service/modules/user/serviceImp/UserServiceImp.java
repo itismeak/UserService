@@ -1,7 +1,7 @@
 package com.microservice.user_service.modules.user.serviceImp;
 
-import com.microservice.user_service.common.dto.UserDto;
 import com.microservice.user_service.common.dto.UserRequestDto;
+import com.microservice.user_service.common.dto.UserViewDto;
 import com.microservice.user_service.common.enums.Role;
 import com.microservice.user_service.common.enums.UserStatus;
 import com.microservice.user_service.common.mapper.UserMapper;
@@ -38,7 +38,7 @@ public class UserServiceImp implements UserService {
             user.setEmail(defaultUser);
             user.setPassword(passwordEncoder.encode("123qwe"));
             user.setRole(Role.User);
-            user.setStatus(UserStatus.ACTIVE);
+            user.setStatus(UserStatus.Active);
             userRepository.save(user);
             System.out.println("Default admin user inserted");
         }
@@ -46,27 +46,27 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public UserDto saveUser(UserRequestDto requestDto) {
+    public UserViewDto saveUser(UserRequestDto requestDto) {
         log.info("Saving new user: {}", requestDto.getEmail());
         User user = userMapper.toUser(requestDto);
         User savedUser = userRepository.save(user);
         log.info("User {} save successfully: ", requestDto.getEmail());
-        return userMapper.toUserDto(savedUser);
+        return userMapper.toUserViewDto(savedUser);
     }
 
     @Override
-    public UserDto getUser(Long id) {
+    public UserViewDto getUser(Long id) {
         User existUser = userRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("User not found given id: {}", id);
                     return new RuntimeException("User not found: " + id);
                 });
-        return userMapper.toUserDto(existUser);
+        return userMapper.toUserViewDto(existUser);
     }
 
     @Override
     @Transactional
-    public UserDto updateUser(Long id, UserRequestDto requestDto) {
+    public UserViewDto updateUser(Long id, UserRequestDto requestDto) {
         User existUser = userRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("User not found given id: {}", id);
@@ -85,11 +85,11 @@ public class UserServiceImp implements UserService {
         log.info("Updating user ID: {}", id);
         User savedUser=userRepository.save(existUser);
         log.info("User updated successfully: {}", id);
-        return userMapper.toUserDto(savedUser);
+        return userMapper.toUserViewDto(savedUser);
     }
 
     @Override
-    public Page<UserDto> getAllUsers(int page, int size, String search) {
+    public Page<UserViewDto> getAllUsers(int page, int size, String search) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> users;
         if (search == null || search.isEmpty()) {
@@ -99,7 +99,7 @@ public class UserServiceImp implements UserService {
                     search, search, pageable);
         }
         log.info("Fetched {} users for page {}", users.getNumberOfElements(), page);
-        return users.map(userMapper::toUserDto);
+        return users.map(userMapper::toUserViewDto);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class UserServiceImp implements UserService {
     public void softDelete(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found: " + id));
-        user.setStatus(UserStatus.DELETED);
+        user.setStatus(UserStatus.Deleted);
         userRepository.save(user);
         log.info("Soft deleted user ID: {}", id);
     }
