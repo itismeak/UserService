@@ -1,6 +1,7 @@
 package com.microservice.user_service.modules.user.controller;
 
 import com.microservice.user_service.common.constants.AppConstant;
+import com.microservice.user_service.common.dto.ApiResponse;
 import com.microservice.user_service.common.dto.UserRequestDto;
 import com.microservice.user_service.common.dto.UserViewDto;
 import com.microservice.user_service.modules.user.service.UserService;
@@ -19,35 +20,35 @@ public class UserController {
 
     // CREATE
     @PostMapping("/save")
-    public ResponseEntity<UserViewDto> createUser(@RequestBody UserRequestDto requestDto) {
+    public ResponseEntity<ApiResponse<UserViewDto>> createUser(@RequestBody UserRequestDto requestDto) {
         log.info("Received request to create user: {}", requestDto.getEmail());
         UserViewDto userDto = userService.saveUser(requestDto);
         log.info("User created successfully: {}", userDto.getId());
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(new ApiResponse<>("User created successfully", userDto, true));
     }
 
     // READ
     @GetMapping("/getUser/{id}")
-    public ResponseEntity<UserViewDto> getUser(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<UserViewDto>> getUser(@PathVariable Long id) {
         log.info("Fetching user with ID: {}", id);
         UserViewDto userDto = userService.getUser(id);
         log.info("User fetched successfully: {}", id);
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(new ApiResponse<>("User fetched successfully", userDto, true));
     }
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<UserViewDto> updateUser(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<UserViewDto>> updateUser(@PathVariable Long id,
                                               @RequestBody UserRequestDto requestDto) {
         log.info("Updating user with ID: {}", id);
         UserViewDto userDto = userService.updateUser(id, requestDto);
         log.info("User updated successfully: {}", id);
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(new ApiResponse<>("User updated successfully", userDto, true));
     }
 
     // LIST WITH PAGINATION & SEARCH
     @GetMapping
-    public ResponseEntity<Page<UserViewDto>> getAllUsers(
+    public ResponseEntity<ApiResponse<Page<UserViewDto>>> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "") String search) {
@@ -55,7 +56,7 @@ public class UserController {
         log.info("Fetching users page={}, size={}, search={}", page, size, search);
         Page<UserViewDto> users = userService.getAllUsers(page, size, search);
         log.info("Fetched {} users", users.getNumberOfElements());
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(new ApiResponse<>("Users fetched successfully", users, true));
     }
 
     // SOFT DELETE

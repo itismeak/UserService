@@ -29,7 +29,23 @@
     <properties>
         <java.version>21</java.version>
         <lombok.version>1.18.30</lombok.version>
+    <!--  For spring cloud eureka server - step 1 -->
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
     </properties>
+
+    <!--  For spring cloud eureka server - step 2 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -109,6 +125,13 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+
+        <!-- Eureka Client -->
+        <!--  For spring cloud eureka server - step 3 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
 
     </dependencies>
 
