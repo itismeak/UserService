@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    // CREATE
     @PostMapping("/save")
     public ResponseEntity<ApiResponse<UserViewDto>> createUser(@RequestBody UserRequestDto requestDto) {
         log.info("Received request to create user: {}", requestDto.getEmail());
@@ -27,7 +26,6 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>("User created successfully", userDto, true));
     }
 
-    // READ
     @GetMapping("/getUser/{id}")
     public ResponseEntity<ApiResponse<UserViewDto>> getUser(@PathVariable Long id) {
         log.info("Fetching user with ID: {}", id);
@@ -36,7 +34,6 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>("User fetched successfully", userDto, true));
     }
 
-    // UPDATE
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<UserViewDto>> updateUser(@PathVariable Long id,
                                               @RequestBody UserRequestDto requestDto) {
@@ -46,7 +43,6 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>("User updated successfully", userDto, true));
     }
 
-    // LIST WITH PAGINATION & SEARCH
     @GetMapping
     public ResponseEntity<ApiResponse<Page<UserViewDto>>> getAllUsers(
             @RequestParam(defaultValue = "0") int page,

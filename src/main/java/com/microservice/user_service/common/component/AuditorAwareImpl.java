@@ -10,10 +10,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        //If you have Spring Security, you can replace "system"
-        // with SecurityContextHolder.getContext().getAuthentication().getName().
-
-        // In real apps, fetch the logged-in username from Spring Security
-        return Optional.of("system"); // default/fallback
+        // SecurityContextHolder.getContext().getAuthentication().getName().
+        return Optional.of("system");
     }
 }

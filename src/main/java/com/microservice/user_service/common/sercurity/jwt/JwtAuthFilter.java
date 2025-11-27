@@ -39,13 +39,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // 1️⃣ Allow public endpoints (VERY IMPORTANT)
+        //Allow public endpoints (VERY IMPORTANT)
         if (isPublicEndpoint(request)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 2️⃣ Validate Authorization header
+        //Validate Authorization header
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -57,7 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        // 3️⃣ Validate token
+        // Validate token
         if (!jwtUtil.validateToken(token)) {
             handleException(response,
                     "Invalid or expired token.",
@@ -65,7 +65,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 4️⃣ Extract user and set security context
+        // Extract user and set security context
         String email = jwtUtil.extractEmail(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {

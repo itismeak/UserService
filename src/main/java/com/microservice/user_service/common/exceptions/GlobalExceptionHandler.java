@@ -16,7 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1️⃣ Validation errors
+    // Validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         return buildResponse("Validation failed", errors, HttpStatus.BAD_REQUEST);
     }
 
-    // 2️⃣ Runtime exceptions
+    // Runtime exceptions
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<?>> handleRuntimeException(RuntimeException ex) {
         log.warn("Runtime exception: {}", ex.getMessage());
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
         return buildResponse("Something went wrong", cleanMessage, HttpStatus.BAD_REQUEST);
     }
 
-    // 3️⃣ Fallback for all other exceptions
+    // Fallback for all other exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleGlobalException(Exception ex) {
         log.error("Unhandled exception: {}", ex.getMessage(), ex);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         return buildResponse("Internal server error", cleanMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // 🔹 Reusable method to build ApiResponse
+    // Reusable method to build ApiResponse
     private ResponseEntity<ApiResponse<?>> buildResponse(String message, Object errorDetails, HttpStatus status) {
         Map<String, Object> data = Map.of(
                 "status", status.value(),
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(response);
     }
 
-    // 🔹 Optional: clean exception messages
+    // clean exception messages
     private String cleanExceptionMessage(String message) {
         if (message == null) return "Unexpected error occurred";
         return message.replaceAll("^\\d{3}\\s[A-Z]+\\s*\"?|\"?$", "").trim();
